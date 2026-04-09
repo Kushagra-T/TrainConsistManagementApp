@@ -1,16 +1,17 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
-class Bogie {
-    private String name;
+// Define PassengerBogie class
+class PassengerBogie {
+    private String type;
     private int capacity;
 
-    public Bogie(String name, int capacity) {
-        this.name = name;
+    public PassengerBogie(String type, int capacity) {
+        this.type = type;
         this.capacity = capacity;
     }
-
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     public int getCapacity() {
@@ -19,23 +20,35 @@ class Bogie {
 
     @Override
     public String toString() {
-        return name + " (Capacity: " + capacity + ")";
+        return "PassengerBogie{" +
+                "type='" + type + '\'' +
+                ", capacity=" + capacity +
+                '}';
     }
 }
 
-public class TrainConsistManagementApp {
+public class FilterPassengerBogiesUsingStreams {
     public static void main(String[] args) {
-        List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair Car", 56));
-        bogies.add(new Bogie("General", 90));
+        // Step 1: Create a list of passenger bogies (reuse from UC7)
+        List<PassengerBogie> bogieList = Arrays.asList(
+                new PassengerBogie("Sleeper", 55),
+                new PassengerBogie("AC Chair", 80),
+                new PassengerBogie("First Class", 100),
+                new PassengerBogie("Sleeper", 60),
+                new PassengerBogie("AC Chair", 70)
+        );
 
-        // Sort using Comparator by capacity
-        bogies.sort(Comparator.comparingInt(Bogie::getCapacity));
+        // Step 2: Convert list to stream and apply filter
+        List<PassengerBogie> filteredBogies = bogieList.stream()
+                .filter(b -> b.getCapacity() > 60) // condition
+                .collect(Collectors.toList());
 
-        System.out.println("Bogies sorted by capacity:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        // Step 3: Display filtered bogies
+        System.out.println("Filtered Passenger Bogies (Capacity > 60):");
+        filteredBogies.forEach(System.out::println);
+
+        // Step 4: Verify original list remains unchanged
+        System.out.println("\nOriginal Bogie List (Unchanged):");
+        bogieList.forEach(System.out::println);
     }
 }
