@@ -27,7 +27,7 @@ class PassengerBogie {
     }
 }
 
-public class FilterPassengerBogiesUsingStreams {
+public class TrainConsistManagementApp {
     public static void main(String[] args) {
         // Step 1: Create a list of passenger bogies (reuse from UC7)
         List<PassengerBogie> bogieList = Arrays.asList(
