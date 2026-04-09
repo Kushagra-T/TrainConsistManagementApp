@@ -10,7 +10,6 @@ class PassengerBogie {
         this.type = type;
         this.capacity = capacity;
     }
-
     public String getType() {
         return type;
     }
