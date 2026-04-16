@@ -1,23 +1,21 @@
 import java.util.Arrays;
-import java.util.Scanner;
 
-public class TrainConsistManagementApp {
+public class TrainConsistManagementAppUC20 {
 
-    // Binary Search method for Bogie IDs
-    public static boolean binarySearch(String[] bogieIds, String key) {
-        // Handle empty array case
+    // Defensive Search Method with Exception Handling
+    public static boolean searchBogie(String[] bogieIds, String key) {
+        // State validation: check if bogies exist
         if (bogieIds == null || bogieIds.length == 0) {
-            System.out.println("No bogies available in the system.");
-            return false;
+            throw new IllegalStateException("Error: No bogies available in the train consist. Search operation cannot proceed.");
         }
 
-        // Ensure input is sorted before searching
+        // Ensure sorted input
         Arrays.sort(bogieIds);
 
         int low = 0;
         int high = bogieIds.length - 1;
 
-        System.out.println("\n--- Binary Search Execution ---");
+        System.out.println("\n--- UC20: Exception Handling During Search ---");
         System.out.println("Searching for Bogie ID: " + key);
         System.out.println("Sorted Bogie List: " + Arrays.toString(bogieIds));
 
@@ -33,10 +31,10 @@ public class TrainConsistManagementApp {
                 System.out.println("Search Status: SUCCESS ✅");
                 return true;
             } else if (comparison < 0) {
-                System.out.println("Key is smaller than mid element → Searching Left Half");
+                System.out.println("Key is smaller → Searching Left Half");
                 high = mid - 1;
             } else {
-                System.out.println("Key is greater than mid element → Searching Right Half");
+                System.out.println("Key is greater → Searching Right Half");
                 low = mid + 1;
             }
         }
@@ -46,34 +44,19 @@ public class TrainConsistManagementApp {
         return false;
     }
 
-    // Main method for demonstration
+    // Demo main method
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("=== UC19: Binary Search for Bogie ID (Optimized Searching) ===");
-        System.out.print("Enter number of bogies: ");
-        int n = sc.nextInt();
-        sc.nextLine(); // consume newline
-
-        String[] bogieIds = new String[n];
-        System.out.println("Enter Bogie IDs:");
-        for (int i = 0; i < n; i++) {
-            bogieIds[i] = sc.nextLine();
+        try {
+            String[] bogies = {}; // Empty case
+            searchBogie(bogies, "BG101");
+        } catch (IllegalStateException e) {
+            System.out.println("\n--- Exception Triggered ---");
+            System.out.println(e.getMessage());
+            System.out.println("Search Status: FAIL-FAST ❌");
         }
 
-        System.out.print("Enter Bogie ID to search: ");
-        String key = sc.nextLine();
-
-        boolean found = binarySearch(bogieIds, key);
-
-        System.out.println("\n--- Final Output ---");
-        if (found) {
-            System.out.println("Bogie ID " + key + " found successfully!");
-        } else {
-            System.out.println("Bogie ID " + key + " not found in the system.");
-        }
-
-        System.out.println("=== End of UC19 Execution ===");
-        sc.close();
+        // Valid case
+        String[] bogies2 = {"BG101","BG205","BG309"};
+        searchBogie(bogies2, "BG205");
     }
 }
